@@ -25,7 +25,7 @@ CRDTs are useful in scenarios where you need to maintain consistency across mult
 especially when there is no central authority to coordinate updates. If you are working with data that users may modify
 while they are offline, and you wish to ensure that concurrent changes are merged consistently, CRDTs may be useful.
 
-## Counters
+## Data Types
 
 ### G-Counter
 
@@ -36,3 +36,9 @@ mostly exists as an example of a simple CRDT.
 
 The Positive-Negative Counter, `CarriageDB/CRDT/Counters/PNCounter`, is similar to the G-Counter, but it can also be
 decremented. It mostly exists as an example of making more complex CRDTs by building on top of simpler data types.
+
+## Development
+
+```bash
+git clone 
+```
