@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CarriageDB\CRDT\Counters;
+namespace CarriageDB\CRDT;
 
 use InvalidArgumentException;
 

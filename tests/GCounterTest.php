@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\CRDT\Counters;
+namespace Tests;
 
-use CarriageDB\CRDT\Counters\GCounter;
+use CarriageDB\CRDT\GCounter;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
