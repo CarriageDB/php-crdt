@@ -40,5 +40,11 @@ decremented. It mostly exists as an example of making more complex CRDTs by buil
 ## Development
 
 ```bash
-git clone 
+git clone https://github.com/CarriageDB/php-crdt.git
+
+composer install
+
+# After making changes, ensure that all checks and tests are passing.i
+
+composer test
 ```
