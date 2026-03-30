@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\CRDT\Counters;
@@ -6,18 +7,21 @@ namespace Tests\CRDT\Counters;
 use CarriageDB\CRDT\Counters\PNCounter;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PNCounterTest extends TestCase
 {
-    public function test_counter_starts_at_zero(): void
+    #[Test]
+    public function counterStartsAtZero(): void
     {
         $counter = new PNCounter('A');
 
         $this->assertEquals(0, $counter->getValue());
     }
 
-    public function test_counter_can_be_incremented(): void
+    #[Test]
+    public function counterCanBeIncremented(): void
     {
         $counter = new PNCounter('A');
 
@@ -26,7 +30,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(1, $counter->getValue());
     }
 
-    public function test_counter_can_be_decremented(): void
+    #[Test]
+    public function counterCanBeDecremented(): void
     {
         $counter = new PNCounter('A');
 
@@ -35,7 +40,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(-1, $counter->getValue());
     }
 
-    public function test_counter_can_be_incremented_multiple_times(): void
+    #[Test]
+    public function counterCanBeIncrementedMultipleTimes(): void
     {
         $counter = new PNCounter('A');
 
@@ -46,7 +52,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(3, $counter->getValue());
     }
 
-    public function test_counter_can_be_decremented_multiple_times(): void
+    #[Test]
+    public function counterCanBeDecrementedMultipleTimes(): void
     {
         $counter = new PNCounter('A');
 
@@ -57,7 +64,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(-3, $counter->getValue());
     }
 
-    public function test_counter_can_be_incremented_with_increased_count(): void
+    #[Test]
+    public function counterCanBeIncrementedWithIncreasedCount(): void
     {
         $counter = new PNCounter('A');
 
@@ -66,7 +74,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(5, $counter->getValue());
     }
 
-    public function test_counter_can_be_decremented_with_increased_count(): void
+    #[Test]
+    public function counterCanBeDecrementedWithIncreasedCount(): void
     {
         $counter = new PNCounter('A');
 
@@ -75,7 +84,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(-5, $counter->getValue());
     }
 
-    public function test_counter_can_be_incremented_multiple_times_with_increased_count(): void
+    #[Test]
+    public function counterCanBeIncrementedMultipleTimesWithIncreasedCount(): void
     {
         $counter = new PNCounter('A');
 
@@ -86,9 +96,8 @@ class PNCounterTest extends TestCase
         $this->assertEquals(13, $counter->getValue());
     }
 
-
-
-    public function test_counter_can_be_decremented_multiple_times_with_increased_count(): void
+    #[Test]
+    public function counterCanBeDecrementedMultipleTimesWithIncreasedCount(): void
     {
         $counter = new PNCounter('A');
 
@@ -99,8 +108,9 @@ class PNCounterTest extends TestCase
         $this->assertEquals(-13, $counter->getValue());
     }
 
+    #[Test]
     #[DataProvider('invalidCountProvider')]
-    public function test_counter_cannot_be_incremented_with_invalid_counts(int $count): void
+    public function counterCannotBeIncrementedWithInvalidCounts(int $count): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Count must be positive');
@@ -110,8 +120,9 @@ class PNCounterTest extends TestCase
         $counter->increment($count);
     }
 
+    #[Test]
     #[DataProvider('invalidCountProvider')]
-    public function test_counter_cannot_be_decremented_with_invalid_counts(int $count): void
+    public function counterCannotBeDecrementedWithInvalidCounts(int $count): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Count must be positive');
@@ -133,16 +144,25 @@ class PNCounterTest extends TestCase
         ];
     }
 
+    #[Test]
     #[DataProvider('mergingProvider')]
-    public function test_cross_merging_two_counters(int $aInc, int $aDec, int $bInc, int $bDec, int $expected): void
+    public function twoCountersCanBeMerged(int $aInc, int $aDec, int $bInc, int $bDec, int $expected): void
     {
         $counterA = new PNCounter('A');
-        if ($aInc > 0) $counterA->increment($aInc);
-        if ($aDec > 0) $counterA->decrement($aDec);
+        if ($aInc > 0) {
+            $counterA->increment($aInc);
+        }
+        if ($aDec > 0) {
+            $counterA->decrement($aDec);
+        }
 
         $counterB = new PNCounter('B');
-        if ($bInc > 0) $counterB->increment($bInc);
-        if ($bDec > 0) $counterB->decrement($bDec);
+        if ($bInc > 0) {
+            $counterB->increment($bInc);
+        }
+        if ($bDec > 0) {
+            $counterB->decrement($bDec);
+        }
 
         $aFirstMerge = $counterA->merge($counterB);
         $bFirstMerge = $counterB->merge($counterA);
@@ -174,7 +194,54 @@ class PNCounterTest extends TestCase
         ];
     }
 
-    public function test_merging_leaves_original_counters_unchanged(): void
+    #[Test]
+    public function threeCountersCanBeMerged(): void
+    {
+        $counterA = new PNCounter('A');
+        $counterA->increment(25);
+        $counterA->decrement(7);
+
+        $counterB = new PNCounter('B');
+        $counterB->increment(3);
+        $counterB->decrement(9);
+
+        $counterC = new PNCounter('C');
+        $counterC->increment(12);
+        $counterC->decrement(11);
+
+        $abcMerge = $counterA->merge($counterB);
+        $abcMerge = $abcMerge->merge($counterC);
+
+        $acbMerge = $counterA->merge($counterC);
+        $acbMerge = $acbMerge->merge($counterB);
+
+        $bacMerge = $counterB->merge($counterA);
+        $bacMerge = $bacMerge->merge($counterC);
+
+        $bcaMerge = $counterB->merge($counterC);
+        $bcaMerge = $bcaMerge->merge($counterA);
+
+        $cabMerge = $counterC->merge($counterA);
+        $cabMerge = $cabMerge->merge($counterB);
+
+        $cbaMerge = $counterC->merge($counterB);
+        $cbaMerge = $cbaMerge->merge($counterA);
+
+        $this->assertEquals(13, $abcMerge->getValue());
+        $this->assertEquals(13, $acbMerge->getValue());
+        $this->assertEquals(13, $bacMerge->getValue());
+        $this->assertEquals(13, $bcaMerge->getValue());
+        $this->assertEquals(13, $cabMerge->getValue());
+        $this->assertEquals(13, $cbaMerge->getValue());
+        $this->assertArraysAreEqual($abcMerge->getState(), $acbMerge->getState());
+        $this->assertArraysAreEqual($acbMerge->getState(), $bacMerge->getState());
+        $this->assertArraysAreEqual($bacMerge->getState(), $bcaMerge->getState());
+        $this->assertArraysAreEqual($bcaMerge->getState(), $cabMerge->getState());
+        $this->assertArraysAreEqual($cabMerge->getState(), $cbaMerge->getState());
+    }
+
+    #[Test]
+    public function mergingLeavesOriginalCountersUnchanged(): void
     {
         $counterA = new PNCounter('A');
         $counterA->increment(5);

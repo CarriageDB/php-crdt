@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace CarriageDB\CRDT\Counters;
 
 use InvalidArgumentException;
 
-class GCounter {
+class GCounter
+{
     /**
      * @var array<string, int>
      */
@@ -16,12 +18,14 @@ class GCounter {
      * @param  string  $key
      * @param  array<string, int>  $counts
      */
-    public function __construct(string $key, array $counts = []) {
+    public function __construct(string $key, array $counts = [])
+    {
         $this->counts = $counts;
         $this->key = $key;
     }
 
-    public function increment(int $count = 1): self {
+    public function increment(int $count = 1): self
+    {
         if ($count < 1) {
             throw new InvalidArgumentException('Count must be positive');
         }
@@ -32,7 +36,8 @@ class GCounter {
         return $this;
     }
 
-    public function merge(GCounter $otherReplica): GCounter {
+    public function merge(GCounter $otherReplica): GCounter
+    {
         $newCounts = $this->counts;
         foreach ($otherReplica->counts as $key => $otherValue) {
             $localValue = $newCounts[$key] ?? 0;
@@ -45,11 +50,13 @@ class GCounter {
     /**
      * @return array<string, int>
      */
-    public function getState(): array {
+    public function getState(): array
+    {
         return $this->counts;
     }
 
-    public function getValue(): int {
+    public function getValue(): int
+    {
         return array_sum($this->counts);
     }
 }

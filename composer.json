@@ -25,12 +25,16 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^13.0",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "scripts": {
+        "fix:style": "phpcbf --standard=PSR12 src tests",
+        "test:style": "phpcs --standard=PSR12 src tests",
         "test:types": "phpstan analyse -c phpstan.neon",
         "test:unit": "phpunit tests",
         "test": [
+            "@test:style",
             "@test:types",
             "@test:unit"
         ]
