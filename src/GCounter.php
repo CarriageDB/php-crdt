@@ -12,6 +12,7 @@ class GCounter
      * @var array<string, int>
      */
     private array $counts;
+
     private string $key;
 
     /**
@@ -55,7 +56,7 @@ class GCounter
         return $this->counts;
     }
 
-    public function getValue(): int
+    public function value(): int
     {
         return array_sum($this->counts);
     }

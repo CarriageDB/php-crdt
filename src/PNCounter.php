@@ -7,7 +7,9 @@ namespace CarriageDB\CRDT;
 class PNCounter
 {
     private GCounter $incrementCounts;
+
     private GCounter $decrementCounts;
+
     private string $key;
 
     public function __construct(string $key, ?GCounter $incrementCounts = null, ?GCounter $decrementCounts = null)
@@ -50,8 +52,8 @@ class PNCounter
         ];
     }
 
-    public function getValue(): int
+    public function value(): int
     {
-        return $this->incrementCounts->getValue() - $this->decrementCounts->getValue();
+        return $this->incrementCounts->value() - $this->decrementCounts->value();
     }
 }

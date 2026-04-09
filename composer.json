@@ -3,7 +3,7 @@
     "description": "Conflict-free Replicated Data Types (CRDT) for PHP.",
     "type": "library",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "autoload": {
         "psr-4": {
             "CarriageDB\\CRDT\\": "src/"

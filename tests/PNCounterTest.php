@@ -17,7 +17,7 @@ class PNCounterTest extends TestCase
     {
         $counter = new PNCounter('A');
 
-        $this->assertEquals(0, $counter->getValue());
+        $this->assertEquals(0, $counter->value());
     }
 
     #[Test]
@@ -27,7 +27,7 @@ class PNCounterTest extends TestCase
 
         $counter->increment();
 
-        $this->assertEquals(1, $counter->getValue());
+        $this->assertEquals(1, $counter->value());
     }
 
     #[Test]
@@ -37,7 +37,7 @@ class PNCounterTest extends TestCase
 
         $counter->decrement();
 
-        $this->assertEquals(-1, $counter->getValue());
+        $this->assertEquals(-1, $counter->value());
     }
 
     #[Test]
@@ -49,7 +49,7 @@ class PNCounterTest extends TestCase
             ->increment()
             ->increment();
 
-        $this->assertEquals(3, $counter->getValue());
+        $this->assertEquals(3, $counter->value());
     }
 
     #[Test]
@@ -61,7 +61,7 @@ class PNCounterTest extends TestCase
             ->decrement()
             ->decrement();
 
-        $this->assertEquals(-3, $counter->getValue());
+        $this->assertEquals(-3, $counter->value());
     }
 
     #[Test]
@@ -71,7 +71,7 @@ class PNCounterTest extends TestCase
 
         $counter->increment(5);
 
-        $this->assertEquals(5, $counter->getValue());
+        $this->assertEquals(5, $counter->value());
     }
 
     #[Test]
@@ -81,7 +81,7 @@ class PNCounterTest extends TestCase
 
         $counter->decrement(5);
 
-        $this->assertEquals(-5, $counter->getValue());
+        $this->assertEquals(-5, $counter->value());
     }
 
     #[Test]
@@ -93,7 +93,7 @@ class PNCounterTest extends TestCase
             ->increment(7)
             ->increment(2);
 
-        $this->assertEquals(13, $counter->getValue());
+        $this->assertEquals(13, $counter->value());
     }
 
     #[Test]
@@ -105,7 +105,7 @@ class PNCounterTest extends TestCase
             ->decrement(7)
             ->decrement(2);
 
-        $this->assertEquals(-13, $counter->getValue());
+        $this->assertEquals(-13, $counter->value());
     }
 
     #[Test]
@@ -167,10 +167,10 @@ class PNCounterTest extends TestCase
         $aFirstMerge = $counterA->merge($counterB);
         $bFirstMerge = $counterB->merge($counterA);
 
-        $this->assertEquals($aInc - $aDec, $counterA->getValue());
-        $this->assertEquals($bInc - $bDec, $counterB->getValue());
-        $this->assertEquals($expected, $aFirstMerge->getValue());
-        $this->assertEquals($expected, $bFirstMerge->getValue());
+        $this->assertEquals($aInc - $aDec, $counterA->value());
+        $this->assertEquals($bInc - $bDec, $counterB->value());
+        $this->assertEquals($expected, $aFirstMerge->value());
+        $this->assertEquals($expected, $bFirstMerge->value());
         $this->assertArraysAreEqual($aFirstMerge->getState(), $bFirstMerge->getState());
     }
 
@@ -227,12 +227,12 @@ class PNCounterTest extends TestCase
         $cbaMerge = $counterC->merge($counterB);
         $cbaMerge = $cbaMerge->merge($counterA);
 
-        $this->assertEquals(13, $abcMerge->getValue());
-        $this->assertEquals(13, $acbMerge->getValue());
-        $this->assertEquals(13, $bacMerge->getValue());
-        $this->assertEquals(13, $bcaMerge->getValue());
-        $this->assertEquals(13, $cabMerge->getValue());
-        $this->assertEquals(13, $cbaMerge->getValue());
+        $this->assertEquals(13, $abcMerge->value());
+        $this->assertEquals(13, $acbMerge->value());
+        $this->assertEquals(13, $bacMerge->value());
+        $this->assertEquals(13, $bcaMerge->value());
+        $this->assertEquals(13, $cabMerge->value());
+        $this->assertEquals(13, $cbaMerge->value());
         $this->assertArraysAreEqual($abcMerge->getState(), $acbMerge->getState());
         $this->assertArraysAreEqual($acbMerge->getState(), $bacMerge->getState());
         $this->assertArraysAreEqual($bacMerge->getState(), $bcaMerge->getState());
@@ -253,8 +253,8 @@ class PNCounterTest extends TestCase
 
         $mergedCounter = $counterA->merge($counterB);
 
-        $this->assertEquals(3, $counterA->getValue());
-        $this->assertEquals(6, $counterB->getValue());
-        $this->assertEquals(9, $mergedCounter->getValue());
+        $this->assertEquals(3, $counterA->value());
+        $this->assertEquals(6, $counterB->value());
+        $this->assertEquals(9, $mergedCounter->value());
     }
 }

@@ -17,7 +17,7 @@ class GCounterTest extends TestCase
     {
         $counter = new GCounter('A');
 
-        $this->assertEquals(0, $counter->getValue());
+        $this->assertEquals(0, $counter->value());
     }
 
     #[Test]
@@ -27,7 +27,7 @@ class GCounterTest extends TestCase
 
         $counter->increment();
 
-        $this->assertEquals(1, $counter->getValue());
+        $this->assertEquals(1, $counter->value());
     }
 
     #[Test]
@@ -39,7 +39,7 @@ class GCounterTest extends TestCase
             ->increment()
             ->increment();
 
-        $this->assertEquals(3, $counter->getValue());
+        $this->assertEquals(3, $counter->value());
     }
 
     #[Test]
@@ -49,7 +49,7 @@ class GCounterTest extends TestCase
 
         $counter->increment(5);
 
-        $this->assertEquals(5, $counter->getValue());
+        $this->assertEquals(5, $counter->value());
     }
 
     #[Test]
@@ -61,7 +61,7 @@ class GCounterTest extends TestCase
             ->increment(7)
             ->increment(2);
 
-        $this->assertEquals(13, $counter->getValue());
+        $this->assertEquals(13, $counter->value());
     }
 
     #[Test]
@@ -105,10 +105,10 @@ class GCounterTest extends TestCase
         $aFirstMerge = $counterA->merge($counterB);
         $bFirstMerge = $counterB->merge($counterA);
 
-        $this->assertEquals($a, $counterA->getValue());
-        $this->assertEquals($b, $counterB->getValue());
-        $this->assertEquals($expected, $aFirstMerge->getValue());
-        $this->assertEquals($expected, $bFirstMerge->getValue());
+        $this->assertEquals($a, $counterA->value());
+        $this->assertEquals($b, $counterB->value());
+        $this->assertEquals($expected, $aFirstMerge->value());
+        $this->assertEquals($expected, $bFirstMerge->value());
         $this->assertArraysAreEqual($aFirstMerge->getState(), $bFirstMerge->getState());
     }
 
@@ -157,12 +157,12 @@ class GCounterTest extends TestCase
         $cbaMerge = $counterC->merge($counterB);
         $cbaMerge = $cbaMerge->merge($counterA);
 
-        $this->assertEquals(40, $abcMerge->getValue());
-        $this->assertEquals(40, $acbMerge->getValue());
-        $this->assertEquals(40, $bacMerge->getValue());
-        $this->assertEquals(40, $bcaMerge->getValue());
-        $this->assertEquals(40, $cabMerge->getValue());
-        $this->assertEquals(40, $cbaMerge->getValue());
+        $this->assertEquals(40, $abcMerge->value());
+        $this->assertEquals(40, $acbMerge->value());
+        $this->assertEquals(40, $bacMerge->value());
+        $this->assertEquals(40, $bcaMerge->value());
+        $this->assertEquals(40, $cabMerge->value());
+        $this->assertEquals(40, $cbaMerge->value());
         $this->assertArraysAreEqual($abcMerge->getState(), $acbMerge->getState());
         $this->assertArraysAreEqual($acbMerge->getState(), $bacMerge->getState());
         $this->assertArraysAreEqual($bacMerge->getState(), $bcaMerge->getState());
@@ -181,8 +181,8 @@ class GCounterTest extends TestCase
 
         $mergedCounter = $counterA->merge($counterB);
 
-        $this->assertEquals(5, $counterA->getValue());
-        $this->assertEquals(3, $counterB->getValue());
-        $this->assertEquals(8, $mergedCounter->getValue());
+        $this->assertEquals(5, $counterA->value());
+        $this->assertEquals(3, $counterB->value());
+        $this->assertEquals(8, $mergedCounter->value());
     }
 }
